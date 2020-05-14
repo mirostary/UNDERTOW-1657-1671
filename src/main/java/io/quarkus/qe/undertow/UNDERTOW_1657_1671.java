@@ -1,16 +1,21 @@
 package io.quarkus.qe.undertow;
+import java.io.IOException;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("/hello")
-public class UNDERTOW_1657_1671 {
+@WebServlet("/hello")
+public class UNDERTOW_1657_1671 extends HttpServlet {
 
-    @GET
+    @Override
     @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "hello";
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+        resp.getWriter().write("hi everyone!");
     }
+
 }
