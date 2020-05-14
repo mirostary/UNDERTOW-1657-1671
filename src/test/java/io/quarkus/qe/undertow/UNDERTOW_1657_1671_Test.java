@@ -1,6 +1,11 @@
 package io.quarkus.qe.undertow;
+
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.Response;
+import io.undertow.httpcore.HttpExchange;
+import io.undertow.server.HttpServerExchange;
+import io.undertow.util.ParameterLimitException;
+import io.undertow.util.URLUtils;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -28,15 +33,11 @@ public class UNDERTOW_1657_1671_Test {
     }
 
     @Test
-    public void testParsePathParam() {
-        //HttpServerExchange exchange = new HttpServerExchange()
-        //URLUtils.parsePathParams("/hello", );
+    public void testParsePathParam() throws ParameterLimitException {
+        String s = "p=" + "Hello;ahoj&bye/nevim";
+        HttpServerExchange exchange = new HttpServerExchange(new MockHttpExchange(),-1 );
+        URLUtils.parseQueryString(s, exchange, "MS949", true, 1000);
 
-        /*Response response = given()
-                .when()
-                .post("/hello")
-                .andReturn();
-        response.then()
-                .*/
+        System.out.println(exchange.getQueryParameters().get("p").getFirst());
     }
 }
