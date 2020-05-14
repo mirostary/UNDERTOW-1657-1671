@@ -1,5 +1,7 @@
 package io.quarkus.qe.undertow;
 
+import java.io.IOException;
+
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.Response;
 import io.undertow.httpcore.HttpExchange;
@@ -35,13 +37,17 @@ public class UNDERTOW_1657_1671_Test {
     @Test
     public void testParsePathParam() throws ParameterLimitException {
 
-        String s = "p=" + "Hello;ahoj&bye/nevim";
+        String s = "p=" + "Hello;ahoj&bye/bla";
         HttpServerExchange exchange = new HttpServerExchange(new MockHttpExchange(),-1 );
-        //URLUtils.parseQueryString(s, exchange, "MS949", true, 1000);
-        URLUtils.parsePathParams("p=/hello", exchange, "hello", true, 1000);
 
-        System.out.println(exchange.getQueryParameters().get("p"));
+        // pouziva parse(...) bez "this" u funkci a s "final" v parametrech => funguje
+        URLUtils.parseQueryString(s, exchange, "UTF_8", true, 1000);
+
+        // pouziva parse(..) s "this" u funkci a bez "final" v parametrech => nefunguje
+        URLUtils.parsePathParams("h=/hello", exchange, "UTF_8", true, 1000);
+
         System.out.println(exchange.getQueryParameters().get("p").getFirst());
+        System.out.println(exchange.getQueryParameters().get("h"));
 
         /*Response response = given()
                 .when()

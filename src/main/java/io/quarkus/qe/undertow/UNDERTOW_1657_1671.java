@@ -5,7 +5,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -17,13 +16,6 @@ public class UNDERTOW_1657_1671 extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
         resp.getWriter().write("hi everyone!");
-    }
-
-    @Override
-    @Path("")
-    @Produces(MediaType.TEXT_PLAIN)
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
     }
 
 }
