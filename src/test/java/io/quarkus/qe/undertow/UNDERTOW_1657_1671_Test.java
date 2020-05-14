@@ -34,10 +34,17 @@ public class UNDERTOW_1657_1671_Test {
 
     @Test
     public void testParsePathParam() throws ParameterLimitException {
+
         String s = "p=" + "Hello;ahoj&bye/nevim";
         HttpServerExchange exchange = new HttpServerExchange(new MockHttpExchange(),-1 );
-        URLUtils.parseQueryString(s, exchange, "MS949", true, 1000);
+        //URLUtils.parseQueryString(s, exchange, "MS949", true, 1000);
+        URLUtils.parsePathParams("p=/hello", exchange, "hello", true, 1000);
 
+        System.out.println(exchange.getQueryParameters().get("p"));
         System.out.println(exchange.getQueryParameters().get("p").getFirst());
+
+        /*Response response = given()
+                .when()
+                .get("/hello;everyone&")*/
     }
 }
